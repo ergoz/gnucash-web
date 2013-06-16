@@ -109,6 +109,11 @@ return [
         ],
         'template_path_stack' => [
             __DIR__ . '/../view',
-        ],
+        ]
+    ],
+    'view_helpers' => [
+        'invokables' => [
+            'formatCurrency' => 'Application\View\FormatCurrency'
+        ]
     ],
 ];
