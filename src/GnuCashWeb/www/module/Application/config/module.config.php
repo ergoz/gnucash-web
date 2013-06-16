@@ -1,116 +1,114 @@
 <?php
-/**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
 
-return array(
-    'router' => array(
-        'routes' => array(
-            'home' => array(
+return [
+    'router' => [
+        'routes' => [
+            'home' => [
                 'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
+                'options' => [
                     'route'    => '/',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'Application\Controller\Index',
                         'action'     => 'index',
-                    ),
-                ),
-            ),
+                    ],
+                ],
+            ],
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
             // using the path /application/:controller/:action
-            'application' => array(
+            'application' => [
                 'type'    => 'Literal',
-                'options' => array(
+                'options' => [
                     'route'    => '/application',
-                    'defaults' => array(
+                    'defaults' => [
                         '__NAMESPACE__' => 'Application\Controller',
                         'controller'    => 'Index',
                         'action'        => 'index',
-                    ),
-                ),
+                    ],
+                ],
                 'may_terminate' => true,
-                'child_routes' => array(
-                    'default' => array(
+                'child_routes' => [
+                    'default' => [
                         'type'    => 'Segment',
-                        'options' => array(
+                        'options' => [
                             'route'    => '/[:controller[/:action]]',
-                            'constraints' => array(
+                            'constraints' => [
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),
-                            'defaults' => array(
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        ),
-    ),
-    'service_manager' => array(
-        'abstract_factories' => array(
+                            ],
+                            'defaults' => [
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
+    'service_manager' => [
+        'abstract_factories' => [
             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
             'Zend\Log\LoggerAbstractServiceFactory',
-        ),
-        'aliases' => array(
+        ],
+        'aliases' => [
             'translator' => 'MvcTranslator',
-        ),
+        ],
         'factories' => [
-            'database' => function (Zend\ServiceManager\ServiceManager $sm) {
+            'AccountRepository' => function (Zend\ServiceManager\ServiceManager $sm) {
+                $em = $sm->get('EntityManager');
+                $accountRepository = new GnuCash\Persistence\Repository\AccountRepository($em);
+                return $accountRepository;
+            },
+            'EntityManager' => function (Zend\ServiceManager\ServiceManager $sm) {
                 $config = $sm->get('Config');
-
-                if (!isset($config['doctrine']) || !isset($config['doctrine']['params'])) {
-                    throw new \Exception('No database connection information supplied');
+                if (!isset($config['doctrine'])) {
+                    throw new \Exception(
+                        'Doctrine database connection information is not configured. See ' .
+                        '[config/autoload/local.php.dist] for a sample configuration.'
+                    );
                 }
 
-                $db = new \PDO(
-                    'pgsql:host=' . $config['doctrine']['params']['host'] . ';port=' .
-                    $config['doctrine']['params']['port'] . ';dbname=' .
-                    $config['doctrine']['params']['dbname'],
-                    $config['doctrine']['params']['user'],
-                    $config['doctrine']['params']['password']
-                );
+                $configManager = new GnuCash\Persistence\ConfigurationFactory();
+                $configManager->loadConfiguration($config['doctrine']);
 
-                return $db;
+                $entityFactory = new GnuCash\Persistence\EntityManagerFactory($configManager);
+                $entity = $entityFactory->getSingleton();
+
+                return $entity;
             }
         ]
-    ),
-    'translator' => array(
+    ],
+    'translator' => [
         'locale' => 'en_US',
-        'translation_file_patterns' => array(
-            array(
+        'translation_file_patterns' => [
+            [
                 'type'     => 'gettext',
                 'base_dir' => __DIR__ . '/../language',
                 'pattern'  => '%s.mo',
-            ),
-        ),
-    ),
-    'controllers' => array(
+            ],
+        ],
+    ],
+    'controllers' => [
         'factories' => [
             'Application\Controller\Index' => function (Zend\Mvc\Controller\ControllerManager $cm) {
-                $db = $cm->getServiceLocator()->get('database');
-                $controller = new Application\Controller\IndexController($db);
+                $repo = $cm->getServiceLocator()->get('AccountRepository');
+                $controller = new Application\Controller\IndexController($repo);
                 return $controller;
             }
         ]
-    ),
-    'view_manager' => array(
+    ],
+    'view_manager' => [
         'doctype'                  => 'HTML5',
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
-        'template_map' => array(
+        'template_map' => [
             'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
             'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
-        ),
-        'template_path_stack' => array(
+        ],
+        'template_path_stack' => [
             __DIR__ . '/../view',
-        ),
-    ),
-);
+        ],
+    ],
+];
