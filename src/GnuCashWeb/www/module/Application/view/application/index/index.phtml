@@ -1,41 +1,16 @@
 
 <ul class="stats-container">
-    <li>
-        <a href="#" class="stat summary">
-            <img src="/images/bank-48.png" />
+    <?php foreach ($this->snapshots as $snapshot): ?>
+        <li>
+            <a href="#" class="stat summary">
+                <img src="<?= $snapshot['icon'] ?>" />
             <span class="digit">
-                <span class="text">Cash in Bank</span>
-                $<?= number_format($this->cash, 0) ?>
+                <span class="text"><?= $snapshot['title'] ?></span>
+                <?= $this->formatCurrency($snapshot['amount'], 0) ?>
             </span>
-        </a>
-    </li>
-    <li>
-        <a href="#" class="stat summary">
-            <img src="/images/credit-cards-48.png" />
-            <span class="digit">
-                <span class="text">Short Term Debt</span>
-                $<?= number_format($this->shortTermDebt, 0) ?>
-            </span>
-        </a>
-    </li>
-    <li>
-        <a href="#" class="stat summary">
-            <img src="/images/cash-48.png" />
-            <span class="digit">
-                <span class="text">Adjusted Cash</span>
-                $<?= number_format($this->adjustedCash, 0) ?>
-            </span>
-        </a>
-    </li>
-    <li>
-        <a href="#" class="stat summary">
-            <img src="/images/house-48.png" />
-            <span class="digit">
-                <span class="text">Long Term Debt</span>
-                $<?= number_format($this->longTermDebt, 0) ?>
-            </span>
-        </a>
-    </li>
+            </a>
+        </li>
+    <?php endforeach; ?>
 </ul>
 
 <!--

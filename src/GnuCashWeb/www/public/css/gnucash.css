@@ -62,3 +62,5 @@ div.container a.brand {
     display: inline-block;
     text-shadow: 1px 1px #eee;
 }
+
+span.negative-number {color: darkred}
