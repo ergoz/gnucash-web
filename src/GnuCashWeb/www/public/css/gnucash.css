@@ -1,0 +1,64 @@
+body {padding-top: 60px}
+
+div.container a.brand {
+    background: url(/images/gnucash-32.png) no-repeat scroll 0 4px transparent;
+    margin-left: 0;
+    padding: 8px 20px 12px 40px;
+}
+
+.stats-container {
+    margin: 0;
+    margin-bottom: 20px;
+    list-style: none;
+    text-align: center;
+}
+.stats-container li {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 5px;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.stats-container>li>.stat {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    position: relative;
+    display: inline-block;
+    padding: 15px 20px;
+    color: #444;
+    text-decoration: none;
+    line-height: 1;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.stats-container > li > .stat img {vertical-align: top}
+
+.stat.summary .text {
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 1;
+    text-shadow: none;
+    color: #666;
+}
+
+.stat.summary .digit {
+    font-size: 24px;
+    padding: 4px 0;
+    line-height: 40px;
+    margin-left: 10px;
+    font-weight: bold;
+    line-height: 1;
+    text-align: left;
+    display: inline-block;
+    text-shadow: 1px 1px #eee;
+}

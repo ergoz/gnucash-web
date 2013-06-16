@@ -1,0 +1,50 @@
+
+<ul class="stats-container">
+    <li>
+        <a href="#" class="stat summary">
+            <img src="/images/bank-48.png" />
+            <span class="digit">
+                <span class="text">Cash in Bank</span>
+                $<?= number_format($this->cash, 0) ?>
+            </span>
+        </a>
+    </li>
+    <li>
+        <a href="#" class="stat summary">
+            <img src="/images/credit-cards-48.png" />
+            <span class="digit">
+                <span class="text">Short Term Debt</span>
+                $<?= number_format($this->shortTermDebt, 0) ?>
+            </span>
+        </a>
+    </li>
+    <li>
+        <a href="#" class="stat summary">
+            <img src="/images/cash-48.png" />
+            <span class="digit">
+                <span class="text">Adjusted Cash</span>
+                $<?= number_format($this->adjustedCash, 0) ?>
+            </span>
+        </a>
+    </li>
+    <li>
+        <a href="#" class="stat summary">
+            <img src="/images/house-48.png" />
+            <span class="digit">
+                <span class="text">Long Term Debt</span>
+                $<?= number_format($this->longTermDebt, 0) ?>
+            </span>
+        </a>
+    </li>
+</ul>
+
+<!--
+<div class="row">
+    <div class="span3" style="-moz-box-sizing: border-box; box-sizing: border-box; border-right: 1px solid #e0e0e0;">
+        <h3 style="margin-top: 0; padding-top: 0; font-size: 14pt; line-height: 14pt">Accounts</h3>
+    </div>
+    <div class="span9" style="-moz-box-sizing: border-box; box-sizing: border-box;">
+        <h3 style="margin-top: 0; padding-top: 0; font-size: 14pt; line-height: 14pt">Budget for June 2013</h3>
+    </div>
+</div>
+-->
