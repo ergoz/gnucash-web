@@ -44,7 +44,8 @@ class AccountsController extends AbstractActionController
         $account = $this->repository->getById($guid);
 
         return [
-            'account' => $account
+            'account' => $account,
+            'transactions' => $this->repository->getTransactions($guid)
         ];
     }
 }
