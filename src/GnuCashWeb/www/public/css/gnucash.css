@@ -6,6 +6,8 @@ div.container a.brand {
     padding: 8px 20px 12px 40px;
 }
 
+.align-right {text-align: right !important}
+
 .stats-container {
     margin: 0;
     margin-bottom: 20px;

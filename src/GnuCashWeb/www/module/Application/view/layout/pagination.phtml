@@ -1,0 +1,35 @@
+
+<?php $routeParams = $this->routeParams ?: array() ?>
+
+<?php if ($this->pageCount > 1): ?>
+    <div class="pagination pagination-small pagination-right">
+        <ul>
+            <?php if (isset($this->previous)): ?>
+                <li>
+                    <a href="<?php echo $this->url($this->route, array('page' => $this->previous) + $routeParams); ?>">
+                        &laquo; Prev</a>
+                </li>
+            <?php else: ?>
+                <li class="disabled"><a href="#">&laquo; Prev</a></li>
+            <?php endif; ?>
+            <?php foreach ($this->pagesInRange as $page): ?>
+                <?php if ($page != $this->current): ?>
+                    <li>
+                        <a href="<?php echo $this->url($this->route, array('page' => $page) + $routeParams); ?>">
+                            <?php echo $page; ?></a>
+                    </li>
+                <?php else: ?>
+                    <li class="disabled"><a href="#"><?php echo $page; ?></a></li>
+                <?php endif; ?>
+            <?php endforeach; ?>
+            <?php if (isset($this->next)): ?>
+                <li>
+                    <a href="<?php echo $this->url($this->route, array('page' => $this->next) + $routeParams); ?>">
+                        Next &raquo;</a>
+                </li>
+            <?php else: ?>
+                <li class="disabled"><a href="#">Next &raquo;</a></li>
+            <?php endif; ?>
+        </ul>
+    </div>
+<?php endif; ?>

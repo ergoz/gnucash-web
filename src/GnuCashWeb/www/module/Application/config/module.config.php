@@ -28,12 +28,14 @@ return [
                     'view-account' => [
                         'type'    => 'Segment',
                         'options' => [
-                            'route'    => '/view/:id',
+                            'route'    => '/view/:id[/:page]',
                             'constraints' => [
                                 'id'     => '[a-zA-Z0-9]*',
+                                'page'     => '[0-9]*',
                             ],
                             'defaults' => [
                                 'action' => 'view',
+                                'page' => 1
                             ],
                         ],
                     ],

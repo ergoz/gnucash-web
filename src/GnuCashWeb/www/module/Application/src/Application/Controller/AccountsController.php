@@ -2,8 +2,10 @@
 
 namespace Application\Controller;
 
+use GnuCash\Persistence\Paginator\Adapter\ZendDoctrineAdapter;
 use Zend\Mvc\Controller\AbstractActionController;
 use Gnucash\Domain\Repository\AccountRepositoryInterface;
+use Zend\Paginator\Paginator;
 
 /**
  * Class AccountsController
@@ -40,12 +42,20 @@ class AccountsController extends AbstractActionController
     public function viewAction()
     {
         $guid = $this->params('id');
+        $page = $this->params('page', 1);
 
         $account = $this->repository->getById($guid);
+        $balance = $this->repository->getAccountBalance($guid);
+        $transactions = $this->repository->getTransactions($guid, ($page - 1) * 20);
+
+        $paginator = new Paginator(new ZendDoctrineAdapter($transactions));
+        $paginator->setCurrentPageNumber($page);
+        $paginator->setItemCountPerPage(20);
 
         return [
             'account' => $account,
-            'transactions' => $this->repository->getTransactions($guid)
+            'paginator' => $paginator,
+            'balance' => $balance
         ];
     }
 }

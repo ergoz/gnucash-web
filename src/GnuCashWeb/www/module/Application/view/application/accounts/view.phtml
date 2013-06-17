@@ -1,24 +1,38 @@
 
-<h3>
-    <?= ($this->account->getParent() ?
-            '<a href="/accounts/view/' . $this->account->getParent()->getId() . '">' .
-            $this->account->getParent()->getName() . '</a> / ' : '') .
-        $this->account->getName() ?>
-</h3>
+<div class="row">
+    <span class="span8 pull-left">
+        <h3>
+            <?= ($this->account->getParent() ?
+                '<a href="/accounts/view/' . $this->account->getParent()->getId() . '">' .
+                $this->account->getParent()->getName() . '</a> / ' : '') .
+            $this->account->getName() ?>
+        </h3>
+    </span>
+    <span class="span4 pull-right align-right">
+        <h4><?= $this->formatCurrency($this->balance) ?></h4>
+    </span>
+</div>
 
 <table class="table table-hover table-striped">
     <thead>
         <tr>
             <th>Date</th>
             <th>Description</th>
-            <th>Amount</th>
+            <th class="align-right">Amount</th>
         </tr>
     </thead>
-    <?php foreach ($this->transactions as $split): ?>
+    <?php foreach ($this->paginator as $split): ?>
     <tr>
         <td><?= $split->getTransaction()->getPosted()->format('m/d/Y') ?></td>
         <td><?= $split->getTransaction()->getDescription() ?></td>
-        <td><?= $this->formatCurrency($split->getValue()) ?></td>
+        <td class="align-right"><?= $this->formatCurrency($split->getValue()) ?></td>
     </tr>
     <?php endforeach; ?>
 </table>
+
+<?= $this->paginationControl(
+    $this->paginator,
+    'Sliding',
+    'layout/pagination',
+    ['route' => 'accounts/view-account', 'routeParams' => ['id' => $this->account->getId()]]
+) ?>
