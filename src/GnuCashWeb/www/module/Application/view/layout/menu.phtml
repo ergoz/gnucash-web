@@ -1,0 +1,18 @@
+<?php
+
+$html = ['<ul class="nav">'];
+
+foreach ($this->container as $page) {
+    if (!$page->isVisible() || !$this->navigation()->accept($page)) {
+        continue;
+    }
+
+    // header
+    $html[] = '<li' . ($page->isActive() ? ' class="active"' : '') . '>';
+    $html[] = '<a href="' . $page->getHref() . '">' . $page->getLabel() . '</a>';
+    $html[] = '</li>';
+}
+
+$html[] = '</ul>';
+
+echo join(PHP_EOL, $html);

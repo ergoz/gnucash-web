@@ -6,38 +6,34 @@ return [
             'home' => [
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => [
-                    'route'    => '/',
+                    'route' => '/',
                     'defaults' => [
                         'controller' => 'Application\Controller\Index',
-                        'action'     => 'index',
+                        'action'=> 'index',
                     ],
                 ],
             ],
-            // The following is a route to simplify getting started creating
-            // new controllers and actions without needing to create a new
-            // module. Simply drop new controllers in, and you can access them
-            // using the path /application/:controller/:action
-            'application' => [
-                'type'    => 'Literal',
+            'accounts' => [
+                'type' => 'Literal',
                 'options' => [
-                    'route'    => '/application',
+                    'route' => '/accounts',
                     'defaults' => [
                         '__NAMESPACE__' => 'Application\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'index',
+                        'controller' => 'Accounts',
+                        'action' => 'index',
                     ],
                 ],
                 'may_terminate' => true,
                 'child_routes' => [
-                    'default' => [
+                    'view-account' => [
                         'type'    => 'Segment',
                         'options' => [
-                            'route'    => '/[:controller[/:action]]',
+                            'route'    => '/view/:id',
                             'constraints' => [
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id'     => '[a-zA-Z0-9]*',
                             ],
                             'defaults' => [
+                                'action' => 'view',
                             ],
                         ],
                     ],
@@ -75,16 +71,17 @@ return [
                 $entity = $entityFactory->getSingleton();
 
                 return $entity;
-            }
+            },
+            'Navigation' => 'Zend\Navigation\Service\DefaultNavigationFactory',
         ]
     ],
     'translator' => [
         'locale' => 'en_US',
         'translation_file_patterns' => [
             [
-                'type'     => 'gettext',
+                'type' => 'gettext',
                 'base_dir' => __DIR__ . '/../language',
-                'pattern'  => '%s.mo',
+                'pattern' => '%s.mo',
             ],
         ],
     ],
@@ -94,18 +91,24 @@ return [
                 $repo = $cm->getServiceLocator()->get('AccountRepository');
                 $controller = new Application\Controller\IndexController($repo);
                 return $controller;
+            },
+            'Application\Controller\Accounts' => function (Zend\Mvc\Controller\ControllerManager $cm) {
+                $repo = $cm->getServiceLocator()->get('AccountRepository');
+                $controller = new Application\Controller\AccountsController($repo);
+                return $controller;
             }
         ]
     ],
     'view_manager' => [
-        'doctype'                  => 'HTML5',
-        'not_found_template'       => 'error/404',
-        'exception_template'       => 'error/index',
+        'doctype' => 'HTML5',
+        'not_found_template' => 'error/404',
+        'exception_template' => 'error/index',
         'template_map' => [
-            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
+            'layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
             'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
-            'error/404'               => __DIR__ . '/../view/error/404.phtml',
-            'error/index'             => __DIR__ . '/../view/error/index.phtml',
+            'application/layout/menu' => __DIR__ . '/../view/layout/menu.phtml',
+            'error/404' => __DIR__ . '/../view/error/404.phtml',
+            'error/index' => __DIR__ . '/../view/error/index.phtml',
         ],
         'template_path_stack' => [
             __DIR__ . '/../view',

@@ -11,4 +11,17 @@
  * file.
  */
 
-return [];
+return [
+    'navigation' => [
+        'default' => [
+            [
+                'label' => 'Home',
+                'route' => 'home',
+            ],
+            [
+                'label' => 'Accounts',
+                'route' => 'accounts',
+            ]
+        ]
+    ]
+];

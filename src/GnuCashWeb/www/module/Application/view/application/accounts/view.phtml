@@ -1,0 +1,15 @@
+
+<h3>
+    <?= ($this->account->getParent() ?
+            '<a href="/accounts/view/' . $this->account->getParent()->getId() . '">' .
+            $this->account->getParent()->getName() . '</a> / ' : '') .
+        $this->account->getName() ?>
+</h3>
+
+<ul>
+    <?php foreach ($this->account->getSplits() as $split): ?>
+    <li>
+        <?= $this->formatCurrency($split->getValue()) ?>
+    </li>
+    <?php endforeach; ?>
+</ul>

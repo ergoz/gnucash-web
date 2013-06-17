@@ -1,0 +1,13 @@
+
+<ul>
+    <?php foreach ($this->accounts as $account): ?>
+        <?php if (!$account->getHidden()): ?>
+        <li>
+            <a href="/accounts/view/<?= $account->getId() ?>"><?= $account->getName() ?></a>
+            <?php if ($account->getChildren()): ?>
+            <?= $this->partial('application/accounts/list', ['accounts' => $account->getChildren()]) ?>
+            <?php endif; ?>
+        </li>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</ul>
