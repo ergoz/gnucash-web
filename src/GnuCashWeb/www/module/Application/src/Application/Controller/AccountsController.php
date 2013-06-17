@@ -41,21 +41,23 @@ class AccountsController extends AbstractActionController
      */
     public function viewAction()
     {
+        $data = [];
+
         $guid = $this->params('id');
         $page = $this->params('page', 1);
 
-        $account = $this->repository->getById($guid);
-        $balance = $this->repository->getAccountBalance($guid);
-        $transactions = $this->repository->getTransactions($guid, ($page - 1) * 20);
+        $data['account'] = $this->repository->getById($guid);
+        $data['balance'] = $this->repository->getAccountBalance($guid);
+        $data['transactions'] = $this->repository->getTransactions($guid, ($page - 1) * 20);
 
-        $paginator = new Paginator(new ZendDoctrineAdapter($transactions));
-        $paginator->setCurrentPageNumber($page);
-        $paginator->setItemCountPerPage(20);
+        $data['paginator'] = new Paginator(new ZendDoctrineAdapter($data['transactions']));
+        $data['paginator']->setCurrentPageNumber($page);
+        $data['paginator']->setItemCountPerPage(20);
 
-        return [
-            'account' => $account,
-            'paginator' => $paginator,
-            'balance' => $balance
-        ];
+        if ($data['account']->getType() == 'EXPENSE') {
+            $data['monthStats'] = $this->repository->getMonthlyChange($guid);
+        }
+
+        return $data;
     }
 }
